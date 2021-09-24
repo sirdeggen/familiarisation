@@ -16,7 +16,7 @@ func (r *Redirect) Decode(input []byte) (*shortener.Redirect, error) {
 	return redirect, nil
 }
 
-func (r *Redirect) Encode(input *shortener.redirect) ([]byte, error) {
+func (r *Redirect) Encode(input *shortener.Redirect) ([]byte, error) {
 	rawMsg, err := msgpack.Marshal(input)
 	if err != nil {
 		return nil, errors.Wrap(err, "serializer.Redirect.Encode")

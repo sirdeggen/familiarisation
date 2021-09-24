@@ -25,7 +25,7 @@ func NewRedirectService(redirectRepo RedirectRepository) RedirectService {
 }
 
 func (r *redirectService) Find(code string) (*Redirect, error) {
-	r.redirectRepo.Find(code)
+	return r.redirectRepo.Find(code)
 }
 
 func (r *redirectService) Store(redirect *Redirect) error {
