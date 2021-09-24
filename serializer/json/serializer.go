@@ -1,7 +1,7 @@
 package json
 
 import (
-	"bitbucket.stressedsharks.com/familiarisation/shortener"
+	"github.com/sirdeggen/familiarisation/shortener"
 	"encoding/json"
 	"github.com/pkg/errors"
 )

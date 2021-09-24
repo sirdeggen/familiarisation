@@ -1,14 +1,14 @@
 package msgpack
 
 import (
-	"bitbucket.stressedsharks.com/d.kellenschwiler/familiarisation/shortener"
-	"github.com/vmihailenco/msgpack"
 	"github.com/pkg/errors"
+	"github.com/sirdeggen/familiarisation/shortener"
+	"github.com/vmihailenco/msgpack"
 )
 
-type Redirect struct {}
+type Redirect struct{}
 
-func (r *Redirect)) Decode(input []byte) (*shortener.Redirect, error) {
+func (r *Redirect) Decode(input []byte) (*shortener.Redirect, error) {
 	redirect := &shortener.Redirect{}
 	if err := msgpack.Unmarshal(input, redirect); err != nil {
 		return nil, errors.Wrap(err, "serializer.Redirect.Decode")
