@@ -1,6 +1,6 @@
 package shortener
 
-// RedirectServies does things
+// RedirectService is ...
 type RedirectService interface {
 	Find(code string) (*Redirect, error)
 	Store(redirect *Redirect) error

@@ -9,6 +9,7 @@ import (
 	validate "gopkg.in/dealancer/validate.v2"
 )
 
+// ErrRedirectNotFound is ...
 var (
 	ErrRedirectNotFound = errors.New("Redirect not found")
 	ErrRedirectInvalid  = errors.New("Redirect invalid")
@@ -18,6 +19,7 @@ type redirectService struct {
 	redirectRepo RedirectRepository
 }
 
+// NewRedirectService is ...
 func NewRedirectService(redirectRepo RedirectRepository) RedirectService {
 	return &redirectService{
 		redirectRepo,
