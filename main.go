@@ -1,8 +1,71 @@
 package main
 
-func main() {
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"strconv"
 
+	"github.com/go-chi/chi"
+	"github.com/go-chi/chi/middleware"
+
+	h "github.com/sirdeggen/familiarisation/api"
+	mr "github.com/sirdeggen/familiarisation/repository/mongodb"
+	rr "github.com/sirdeggen/familiarisation/repository/redis"
+	"github.com/sirdeggen/familiarisation/shortener"
+)
+
+// repo <- service -> serialiser -> http
+
+func main() {
+	repo := chooseRepo()
+	service := shortener.NewRedirectService(repo)
+	handler := h.NewHandler(service)
+
+	r := chi.NewRouter()
+	r.Use(middleware.RequestID)
+	r.Use(middleware.RealIP)
+	r.Use(middleware.Logger)
+	r.Use(middleware.Recoverer)
+
+	r.Get("/{code}", handler.Get)
+	r.Post("/", handler.Post)
+
+	errs := make(chan error, 2)
+	go func() {
+		port := httpPort()
+		fmt.Println("Listening on port %s", port)
+		errs <- http.ListenAndServe(port, r)
+	}()
 }
 
-// https://www.google.com -> slkajnfal
-// localhost:3000/slkajnfal -> https://google.com
+func httpPort() string {
+	port := "8000"
+	if os.Getenv("PORT") != "" {
+		port = os.Getenv("PORT")
+	}
+	return fmt.Sprintf(":%s", port)
+}
+
+func chooseRepo() shortener.RedirectRepository {
+	switch os.Getenv("URL_DB") {
+	case "redis":
+		redisURL := os.Getenv("REDIS_URL")
+		repo, err := rr.NewRedisRepository(redisURL)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return repo
+	case "mongo":
+		mongoURL := os.Getenv("MONGO_URL")
+		mongodb := os.Getenv("MONGO_DB")
+		mongoTimeout, _ := strconv.Atoi(os.Getenv("MONGO_TIMEOUT"))
+		repo, err := mr.NewMongoRepository(mongoURL, mongodb, mongoTimeout)
+		if err != nil {
+			log.Fatal(err)
+		}
+		return repo
+	}
+	return nil
+}
