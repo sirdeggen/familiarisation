@@ -6,20 +6,18 @@ import (
 
 	errs "github.com/pkg/errors"
 	"github.com/teris-io/shortid"
-	validate "gopkg.in/dealancer/validate.v2"
+	"gopkg.in/dealancer/validate.v2"
 )
 
-// ErrRedirectNotFound is ...
 var (
-	ErrRedirectNotFound = errors.New("Redirect not found")
-	ErrRedirectInvalid  = errors.New("Redirect invalid")
+	ErrRedirectNotFound = errors.New("Redirect Not Found")
+	ErrRedirectInvalid  = errors.New("Redirect Invalid")
 )
 
 type redirectService struct {
 	redirectRepo RedirectRepository
 }
 
-// NewRedirectService is ...
 func NewRedirectService(redirectRepo RedirectRepository) RedirectService {
 	return &redirectService{
 		redirectRepo,
