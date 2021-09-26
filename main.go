@@ -19,7 +19,6 @@ import (
 )
 
 // repo <- service -> serialiser -> http
-
 func main() {
 	repo := chooseRepo()
 	service := shortener.NewRedirectService(repo)
@@ -36,9 +35,9 @@ func main() {
 
 	errs := make(chan error, 2)
 	go func() {
-		port := httpPort()
-		fmt.Printf("Listening on port %s\n", port)
-		errs <- http.ListenAndServe(port, r)
+		fmt.Println("Listening on port :8000")
+		errs <- http.ListenAndServe(httpPort(), r)
+
 	}()
 
 	go func() {
@@ -48,6 +47,7 @@ func main() {
 	}()
 
 	fmt.Printf("Terminated %s", <-errs)
+
 }
 
 func httpPort() string {
