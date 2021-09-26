@@ -2,6 +2,7 @@ package redis
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 
 	"github.com/go-redis/redis"
@@ -14,6 +15,7 @@ type redisRepository struct {
 }
 
 func newRedisClient(redisURL string) (*redis.Client, error) {
+	log.Println("newRedisClient")
 	opts, err := redis.ParseURL(redisURL)
 	if err != nil {
 		return nil, err
@@ -27,6 +29,7 @@ func newRedisClient(redisURL string) (*redis.Client, error) {
 }
 
 func NewRedisRepository(redisURL string) (shortener.RedirectRepository, error) {
+	log.Println("NewRedisRepository")
 	repo := &redisRepository{}
 	client, err := newRedisClient(redisURL)
 	if err != nil {
@@ -37,6 +40,7 @@ func NewRedisRepository(redisURL string) (shortener.RedirectRepository, error) {
 }
 
 func (r *redisRepository) generateKey(code string) string {
+	log.Println("generateKey")
 	return fmt.Sprintf("redirect:%s", code)
 }
 
@@ -61,14 +65,19 @@ func (r *redisRepository) Find(code string) (*shortener.Redirect, error) {
 }
 
 func (r *redisRepository) Store(redirect *shortener.Redirect) error {
+	log.Println("40")
 	key := r.generateKey(redirect.Code)
+	log.Println("41")
 	data := map[string]interface{}{
 		"code":       redirect.Code,
 		"url":        redirect.URL,
 		"created_at": redirect.CreatedAt,
 	}
+	log.Println("42")
 	_, err := r.client.HMSet(key, data).Result()
+	log.Println("43")
 	if err != nil {
+		log.Println("44")
 		return errors.Wrap(err, "repository.Redirect.Store")
 	}
 	return nil

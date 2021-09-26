@@ -2,6 +2,7 @@ package mongo
 
 import (
 	"context"
+	"log"
 	"time"
 
 	"github.com/pkg/errors"
@@ -63,6 +64,7 @@ func (r *mongoRepository) Find(code string) (*shortener.Redirect, error) {
 }
 
 func (r *mongoRepository) Store(redirect *shortener.Redirect) error {
+	log.Println("50")
 	ctx, cancel := context.WithTimeout(context.Background(), r.timeout)
 	defer cancel()
 	collection := r.client.Database(r.database).Collection("redirects")
