@@ -5,11 +5,12 @@ import (
 	"time"
 
 	"github.com/pkg/errors"
-	"github.com/sirdeggen/familiarisation/shortener"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+
+	"github.com/sirdeggen/familiarisation/shortener"
 )
 
 type mongoRepository struct {
@@ -29,7 +30,7 @@ func newMongoClient(mongoURL string, mongoTimeout int) (*mongo.Client, error) {
 	if err != nil {
 		return nil, err
 	}
-	return client, err
+	return client, nil
 }
 
 func NewMongoRepository(mongoURL, mongoDB string, mongoTimeout int) (shortener.RedirectRepository, error) {
@@ -66,7 +67,8 @@ func (r *mongoRepository) Store(redirect *shortener.Redirect) error {
 	defer cancel()
 	collection := r.client.Database(r.database).Collection("redirects")
 	_, err := collection.InsertOne(
-		ctx, bson.M{
+		ctx,
+		bson.M{
 			"code":       redirect.Code,
 			"url":        redirect.URL,
 			"created_at": redirect.CreatedAt,

@@ -9,7 +9,7 @@ import (
 	"github.com/sirdeggen/familiarisation/shortener"
 )
 
-type redisRespository struct {
+type redisRepository struct {
 	client *redis.Client
 }
 
@@ -27,7 +27,7 @@ func newRedisClient(redisURL string) (*redis.Client, error) {
 }
 
 func NewRedisRepository(redisURL string) (shortener.RedirectRepository, error) {
-	repo := &redisRespository{}
+	repo := &redisRepository{}
 	client, err := newRedisClient(redisURL)
 	if err != nil {
 		return nil, errors.Wrap(err, "repository.NewRedisRepository")
@@ -36,11 +36,11 @@ func NewRedisRepository(redisURL string) (shortener.RedirectRepository, error) {
 	return repo, nil
 }
 
-func (r *redisRespository) generateKey(code string) string {
+func (r *redisRepository) generateKey(code string) string {
 	return fmt.Sprintf("redirect:%s", code)
 }
 
-func (r *redisRespository) Find(code string) (*shortener.Redirect, error) {
+func (r *redisRepository) Find(code string) (*shortener.Redirect, error) {
 	redirect := &shortener.Redirect{}
 	key := r.generateKey(code)
 	data, err := r.client.HGetAll(key).Result()
@@ -51,13 +51,16 @@ func (r *redisRespository) Find(code string) (*shortener.Redirect, error) {
 		return nil, errors.Wrap(shortener.ErrRedirectNotFound, "repository.Redirect.Find")
 	}
 	createdAt, err := strconv.ParseInt(data["created_at"], 10, 64)
+	if err != nil {
+		return nil, errors.Wrap(err, "repository.Redirect.Find")
+	}
 	redirect.Code = data["code"]
 	redirect.URL = data["url"]
 	redirect.CreatedAt = createdAt
 	return redirect, nil
 }
 
-func (r *redisRespository) Store(redirect *shortener.Redirect) error {
+func (r *redisRepository) Store(redirect *shortener.Redirect) error {
 	key := r.generateKey(redirect.Code)
 	data := map[string]interface{}{
 		"code":       redirect.Code,
@@ -66,7 +69,7 @@ func (r *redisRespository) Store(redirect *shortener.Redirect) error {
 	}
 	_, err := r.client.HMSet(key, data).Result()
 	if err != nil {
-		return errors.Wrap(err, "respository.Redirect.Store")
+		return errors.Wrap(err, "repository.Redirect.Store")
 	}
 	return nil
 }
