@@ -73,7 +73,7 @@ func httpPort() string {
 }
 
 func chooseRepo() shortener.RedirectRepository {
-	repoChoice := "redis" //os.Getenv("URL_DB")
+	repoChoice := "mongo" //os.Getenv("URL_DB")
 	log.Println("chooseRepoooo", repoChoice)
 	switch repoChoice {
 	case "redis":
@@ -87,9 +87,9 @@ func chooseRepo() shortener.RedirectRepository {
 		return repo
 	case "mongo":
 		log.Println("chooseRepo")
-		mongoURL := os.Getenv("MONGO_URL")
-		mongodb := os.Getenv("MONGO_DB")
-		mongoTimeout, _ := strconv.Atoi(os.Getenv("MONGO_TIMEOUT"))
+		mongoURL := "mongodb://localhost/shortner" //os.Getenv("MONGO_URL")
+		mongodb := "shortner"                      //os.Getenv("MONGO_DB")
+		mongoTimeout, _ := strconv.Atoi("30")      //os.Getenv("MONGO_TIMEOUT"))
 		repo, err := mr.NewMongoRepository(mongoURL, mongodb, mongoTimeout)
 		if err != nil {
 			log.Fatal(err)

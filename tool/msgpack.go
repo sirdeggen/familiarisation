@@ -6,22 +6,13 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/sirdeggen/familiarisation/shortener"
 	"github.com/vmihailenco/msgpack"
 )
 
-func httpPort() string {
-	port := "8000"
-	if os.Getenv("PORT") != "" {
-		port = os.Getenv("PORT")
-	}
-	return fmt.Sprintf(":%s", port)
-}
-
 func main() {
-	address := fmt.Sprintf("http://localhost%s", httpPort())
+	address := fmt.Sprint("http://localhost:8000")
 	redirect := shortener.Redirect{}
 	redirect.URL = "https://nchain.com"
 
