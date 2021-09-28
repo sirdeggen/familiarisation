@@ -18,6 +18,7 @@ require (
 	github.com/golang/snappy v0.0.1 // indirect
 	github.com/klauspost/compress v1.9.5 // indirect
 	github.com/leodido/go-urn v1.1.0 // indirect
+	github.com/lib/pq v1.10.3
 	github.com/onsi/ginkgo v1.16.4 // indirect
 	github.com/onsi/gomega v1.16.0 // indirect
 	github.com/xdg-go/pbkdf2 v1.0.0 // indirect

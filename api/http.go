@@ -27,13 +27,9 @@ func NewHandler(redirectService shortener.RedirectService) RedirectHandler {
 }
 
 func setupResponse(w http.ResponseWriter, contentType string, body []byte, statusCode int) {
-	log.Println("20")
 	w.Header().Set("Content-Type", contentType)
-	log.Println("21")
 	w.WriteHeader(statusCode)
-	log.Println("22")
 	_, err := w.Write(body)
-	log.Println("23")
 	if err != nil {
 		log.Println(err)
 	}
@@ -61,26 +57,18 @@ func (h *handler) Get(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h *handler) Post(w http.ResponseWriter, r *http.Request) {
-	log.Println("30")
 	contentType := r.Header.Get("Content-Type")
-	log.Println("31")
 	requestBody, err := ioutil.ReadAll(r.Body)
-	log.Println("32")
 	if err != nil {
-		log.Println("33")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 	redirect, err := h.serializer(contentType).Decode(requestBody)
-	log.Println("34")
 	if err != nil {
-		log.Println("35")
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
-	log.Println("35.5")
 	err = h.redirectService.Store(redirect)
-	log.Println("36")
 	if err != nil {
 		if errors.Cause(err) == shortener.ErrRedirectInvalid {
 			http.Error(w, http.StatusText(http.StatusBadRequest), http.StatusBadRequest)
