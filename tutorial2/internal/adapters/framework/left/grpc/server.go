@@ -25,7 +25,7 @@ func (grcpa Adapter) Run() {
 		log.Fatalf("failed to listen on port 9000: %v", err)
 	}
 
-	arithmeticServiceServer := grpca
+	arithmeticServiceServer := grcpa
 	grpcServer := grpc.NewServer()
 	pb.RegisterArithmeticServiceServer(grpcServer, arithmeticServiceServer)
 

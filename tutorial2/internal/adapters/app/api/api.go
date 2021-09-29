@@ -27,7 +27,7 @@ func (apia Adapter) GetAddition(a, b int32) (int32, error) {
 	return answer, nil
 }
 
-func (apia Adapter) GetSubtration(a, b int32) (int32, error) {
+func (apia Adapter) GetSubtraction(a, b int32) (int32, error) {
 	answer, err := apia.arith.Subtraction(a, b)
 	if err != nil {
 		return 0, err
