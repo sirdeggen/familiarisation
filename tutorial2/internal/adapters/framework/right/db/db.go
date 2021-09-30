@@ -37,11 +37,16 @@ func (a Adapter) CloseDbConnection() {
 }
 
 func (a Adapter) AddToHistory(answer int32, operation string) error {
-	queryString, args, err := sq.Insert("arith_history").Columns("date", "answer", "operation").Values(time.Now(), answer, operation).ToSql()
-	_, err = a.db.Exec(queryString, args...)
+	queryString, args, err := sq.Insert("arith_history").Columns("date", "answer", "operation").
+		Values(time.Now(), answer, operation).ToSql()
 	if err != nil {
-		log.Fatalf("db insertion failure: %v", err)
 		return err
 	}
+
+	_, err = a.db.Exec(queryString, args...)
+	if err != nil {
+		return err
+	}
+
 	return nil
 }

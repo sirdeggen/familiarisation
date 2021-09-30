@@ -39,7 +39,7 @@ func init() {
 	if err != nil {
 		log.Fatalf("Failed to init dbase connection: %v", err)
 	}
-	defer dbaseAdapter.CloseDbConnection()
+	//defer dbaseAdapter.CloseDbConnection()
 
 	core = arithmetic.NewAdapter()
 
@@ -70,7 +70,7 @@ func getGRPCConnection(ctx context.Context, t *testing.T) *grpc.ClientConn {
 func TestGetAddition(t *testing.T) {
 	ctx := context.Background()
 	conn := getGRPCConnection(ctx, t)
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := pb.NewArithmeticServiceClient(conn)
 
@@ -90,7 +90,7 @@ func TestGetAddition(t *testing.T) {
 func TestGetSubtraction(t *testing.T) {
 	ctx := context.Background()
 	conn := getGRPCConnection(ctx, t)
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := pb.NewArithmeticServiceClient(conn)
 
@@ -110,7 +110,7 @@ func TestGetSubtraction(t *testing.T) {
 func TestGetMultiplication(t *testing.T) {
 	ctx := context.Background()
 	conn := getGRPCConnection(ctx, t)
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := pb.NewArithmeticServiceClient(conn)
 
@@ -130,7 +130,7 @@ func TestGetMultiplication(t *testing.T) {
 func TestGetDivision(t *testing.T) {
 	ctx := context.Background()
 	conn := getGRPCConnection(ctx, t)
-	defer conn.Close()
+	//defer conn.Close()
 
 	client := pb.NewArithmeticServiceClient(conn)
 

@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	"log"
 
 	"github.com/sirdeggen/famailiarisation/tutorial2/internal/adapters/framework/left/grpc/pb"
 	"google.golang.org/grpc/codes"
@@ -18,6 +19,7 @@ func (grcpa Adapter) GetAddition(ctx context.Context, req *pb.OperationParameter
 	}
 
 	answer, err := grcpa.api.GetAddition(req.A, req.B)
+	log.Println("MOOSE", answer, err, req)
 	if err != nil {
 		return ans, status.Error(codes.Internal, "unexpected answer")
 	}
@@ -36,6 +38,7 @@ func (grcpa Adapter) GetSubtraction(ctx context.Context, req *pb.OperationParame
 	}
 
 	answer, err := grcpa.api.GetSubtraction(req.A, req.B)
+	log.Println("MOOSE", answer, err, req)
 	if err != nil {
 		return ans, status.Error(codes.Internal, "unexpected answer")
 	}
@@ -54,6 +57,7 @@ func (grcpa Adapter) GetMultiplication(ctx context.Context, req *pb.OperationPar
 	}
 
 	answer, err := grcpa.api.GetMultiplication(req.A, req.B)
+	log.Println("MOOSE", answer, err, req)
 	if err != nil {
 		return ans, status.Error(codes.Internal, "unexpected answer")
 	}
@@ -72,6 +76,7 @@ func (grcpa Adapter) GetDivision(ctx context.Context, req *pb.OperationParameter
 	}
 
 	answer, err := grcpa.api.GetDivision(req.A, req.B)
+	log.Println("MOOSE", answer, err, req)
 	if err != nil {
 		return ans, status.Error(codes.Internal, "unexpected answer")
 	}
