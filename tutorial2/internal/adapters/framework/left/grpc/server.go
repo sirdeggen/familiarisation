@@ -9,14 +9,17 @@ import (
 	"google.golang.org/grpc"
 )
 
+// Adapter is ...
 type Adapter struct {
 	api ports.APIPort
 }
 
+// NewAdapter is ...
 func NewAdapter(api ports.APIPort) *Adapter {
 	return &Adapter{api: api}
 }
 
+// Run is ...
 func (grcpa Adapter) Run() {
 	var err error
 
