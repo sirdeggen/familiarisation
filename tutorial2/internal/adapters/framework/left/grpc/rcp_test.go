@@ -84,7 +84,7 @@ func TestGetAddition(t *testing.T) {
 		t.Fatalf("expected: %v, got: %v", nil, err)
 	}
 
-	require.Equal(t, answer.Value, int32(1))
+	require.Equal(t, answer.Value, int32(2))
 }
 
 func TestGetSubtraction(t *testing.T) {
@@ -95,8 +95,8 @@ func TestGetSubtraction(t *testing.T) {
 	client := pb.NewArithmeticServiceClient(conn)
 
 	params := &pb.OperationParameters{
-		A: 1,
-		B: 1,
+		A: 4,
+		B: 3,
 	}
 
 	answer, err := client.GetSubtraction(ctx, params)
@@ -115,8 +115,8 @@ func TestGetMultiplication(t *testing.T) {
 	client := pb.NewArithmeticServiceClient(conn)
 
 	params := &pb.OperationParameters{
-		A: 1,
-		B: 1,
+		A: 4,
+		B: 2,
 	}
 
 	answer, err := client.GetMultiplication(ctx, params)
@@ -124,7 +124,7 @@ func TestGetMultiplication(t *testing.T) {
 		t.Fatalf("expected: %v, got: %v", nil, err)
 	}
 
-	require.Equal(t, answer.Value, int32(1))
+	require.Equal(t, answer.Value, int32(8))
 }
 
 func TestGetDivision(t *testing.T) {
@@ -135,8 +135,8 @@ func TestGetDivision(t *testing.T) {
 	client := pb.NewArithmeticServiceClient(conn)
 
 	params := &pb.OperationParameters{
-		A: 1,
-		B: 1,
+		A: 16,
+		B: 4,
 	}
 
 	answer, err := client.GetDivision(ctx, params)
@@ -144,5 +144,5 @@ func TestGetDivision(t *testing.T) {
 		t.Fatalf("expected: %v, got: %v", nil, err)
 	}
 
-	require.Equal(t, answer.Value, int32(1))
+	require.Equal(t, answer.Value, int32(4))
 }
