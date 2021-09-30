@@ -18,13 +18,13 @@ func NewAdapter(driverName, dataSourceName string) (*Adapter, error) {
 	db, err := sql.Open(driverName, dataSourceName)
 	if err != nil {
 		log.Fatalf("db connection failure: %v", err)
-		return nil, error
+		return nil, err
 	}
 	// test db connection
 	err = db.Ping()
 	if err != nil {
 		log.Fatalf("db ping failure: %v", err)
-		return nil, error
+		return nil, err
 	}
 	return &Adapter{db: db}, nil
 }
