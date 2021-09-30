@@ -60,7 +60,7 @@ func bufDialer(context.Context, string) (net.Conn, error) {
 }
 
 func getGRPCConnection(ctx context.Context, t *testing.T) *grpc.ClientConn {
-	conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure)
+	conn, err := grpc.DialContext(ctx, "bufnet", grpc.WithContextDialer(bufDialer), grpc.WithInsecure())
 	if err != nil {
 		t.Fatalf("failed to dial bufnet: %v", err)
 	}
